@@ -1,0 +1,21 @@
+body {
+  font-family: helvetica;
+}
+
+pre {
+  background-color: lightgreen;
+  padding: 40px;
+}
+.description, .example, .examples, .notes, .solution, .dropdown, .header, .footer {
+  margin: 40px 0;
+}
+
+.header {
+  display: inline-block;
+  color: lightgreen;
+  font-style: bold;
+  transform: rotate(-3deg);
+  border: solid 4px lightgreen;
+  border-radius: 100%;
+  padding: 8px;
+}

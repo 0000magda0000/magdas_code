@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+<body>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="best_travel.html">Best Travel</a>
+    <a class="dropdown-item" href="queermed.html">queermed.info</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="description">
+    <h4>Description:</h4>
+      John and Mary want to travel between a few towns <code>A, B, C ...</code> Mary has on a
+      sheet of paper a list of distances between these towns. <code>ls = [50, 55, 57,
+      58, 60]</code>. John is tired of driving and he says to Mary that he doesn't want
+      to drive more than <code>t = 174</code> miles and he will visit only 3 towns.
+      Which distances, hence which towns, they will choose so that the sum of the distances is the biggest possible to please Mary and John?
+    </div>
+  <div class="example">
+    <h5>Example:</h5>
+      With list ls and 3 towns to visit they can make a choice between: <code>[50,55,57],[50,55,58],[50,55,60],[50,57,58],[50,57,60],[50,58,60],[55,57,58],[55,57,60],[55,58,60],[57,58,60]</code>.
+      The sums of distances are then: <code>162, 163, 165, 165, 167, 168, 170, 172, 173, 175</code>.
+      The biggest possible sum taking a limit of 174 into account is then 173 and the distances of the 3 corresponding towns is <code>[55, 58, 60]</code>.
+      The function chooseBestSum (or choose_best_sum or ... depending on the language) will take as parameters t (maximum sum of distances, integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances, all distances are positive or null integers and this list has at least one element). The function returns the "best" sum ie the biggest possible sum of k distances less than or equal to the given limit t, if that sum exists, or otherwise nil, null, None, Nothing, depending on the language.
+      With C++, C, Rust, Swift, Go, Kotlin, Dart return -1.
+  </div>
+  <div class="examples">
+    <h5>Examples:</h5>
+      <code>ts = [50, 55, 56, 57, 58] choose_best_sum(163, 3, ts) -> 163</code>
+      <code>xs = [50] choose_best_sum(163, 3, xs) -> nil (or null or ... or -1 (C++, C, Rust, Swift, Go)</code>
+      <code>ys = [91, 74, 73, 85, 73, 81, 87] choose_best_sum(230, 3, ys) -> 228</code>
+  </div>
+  <div class="note">
+    <h5>Note:</h5>
+      don't modify the input list ls
+  </div>
+</div>
+</body>
+</html>
+
