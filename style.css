@@ -19,3 +19,23 @@ pre {
   border-radius: 100%;
   padding: 8px;
 }
+
+.index-header {
+  color: lightgreen;
+  font-style: bold;
+  transform: rotate(-3deg);
+}
+a {
+  color: lightgreen;
+}
+
+a:hover {
+  color: #F28FBC;
+  text-decoration: none;
+}
+
+.teacher {
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+}

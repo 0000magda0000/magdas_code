@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+<body>
+<div class="container">
+
+  <div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Magdas Code
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="queermed.html">queermed.info</a>
+      <a class="dropdown-item" href="instrumentalize.html">instrumentalize.me</a>
+      <a class="dropdown-item" href="best_travel.html">Best Travel</a>
+      <a class="dropdown-item" href="next_bigger.html">Next bigger number with the same digits</a>
+    </div>
+  </div>
+
+  <div class="header">
+    <h3>Next bigger number with the same digits</h3>
+</div>
+  <a href="next_bigger.rb" download>oder klicke um den Code für den Editor zu laden</a>
+
+  <div class="description">
+    <h5>Description:</h5>
+    Create a function that takes a positive integer and returns the next bigger number that can be formed by rearranging its digits. For example:<br>
+
+    <code>12 ==> 21</code><br>
+    <code>513 ==> 531</code><br>
+    <code>2017 ==> 2071</code><br>
+    <code>nextBigger(num: 12)</code>   // returns 21<br>
+    <code>nextBigger(num: 513)</code>  // returns 531<br>
+    <code>nextBigger(num: 2017)</code> // returns 2071<br>
+    If the digits can't be rearranged to form a bigger number, return -1 (or nil in Swift):<br>
+    <code>9 ==> -1</code><br>
+    <code>111 ==> -1</code><br>
+    <code>531 ==> -1</code><br>
+    <code>nextBigger(num: 9)</code>   // returns nil<br>
+    <code>nextBigger(num: 111)</code> // returns nil<br>
+    <code>nextBigger(num: 531)</code> // returns nil<br>
+  </div>
+  <div class="test">
+    <h3>Ein Test Input</h3>
+    <pre>
+      Test.assert_equals(next_bigger(12),21)
+      Test.assert_equals(next_bigger(513),531)
+      Test.assert_equals(next_bigger(2017),2071)
+      Test.assert_equals(next_bigger(414),441)
+      Test.assert_equals(next_bigger(144),414)
+    </pre>
+  </div>
+  <div class="solution">
+    <h3>Magdas Lösungsansatz mit Ruby</h3>
+
+    <pre>
+    # defining the function swap! that swaps the given argument input
+      class Array
+        def swap! (a, b)
+          self[a], self[b] = self[b], self[a]
+          self
+        end
+      end
+
+      def next_bigger(n)
+        # convert n into array of integers, storing this array in the variable a
+        a = n.to_s.chars.map { |x| x.to_i }
+
+        # test for the special case that a and a reverse are the same, return -1 if so
+        if a.sort.reverse == a
+          -1
+        # test for the special case that a is already ascending digits and
+        # test for dublicates, if so
+        elsif a.sort == a && a.uniq.count == a.count
+          a.swap!(-1, -2).join.to_i
+        # test for the special case
+        elsif a[-1] == a[-2] && a.count <= 3
+          a.swap!(-2, -3).join.to_i
+      end
+
+        i = 1
+        while i < a.count
+          if a[-i] > a[-i - 1]
+            b = a[-i..-1].sort
+            c = (b.find_index(b.detect { |x| x > a[-1 - i] }) - b.count)
+            a[0..-i - 1].push(b).flatten.swap!(-i - 1, c).join.to_i
+          end
+          i += 1
+        end
+      end
+    </pre>
+  </div>
+  <div class="comment">
+    <h3>Magdas Kommentar zu ihrem Lösungsansatz</h3>
+    Ich kann mich erinnern, dass ich diese Challenge sehr spannend fand. Ich habe zum Beispiel den Unterschied zwischen <code>.combination</code> und <code>.permutation</code> kennengelernt. Ich nehme an, dass die Lösung mit Combination nicht ideal ist, weil es wahrscheinlich das Programm verlangsamt, da alle Kombinationen abgefragt werden. Auch die Lösung mit dem Umgang mit <code>nil</code> scheint mir nicht ideal. Gefallen hat mir das Übersetzen einer etwas komplexeren Textaufgabe in Code. Zudem habe ich die <code>.bsearch</code> (Binary Search) Methode gelernt :).
+  </div>
+  <div class="footer">
+    Best Travel ist eine Coding Challenge auf <a href="https://www.codewars.com/kata/55983863da40caa2c900004e">codewars.com</a>
+  </div>
+</div>
+</body>
+</html>
+
