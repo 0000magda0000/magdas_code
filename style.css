@@ -6,6 +6,11 @@ pre {
   background-color: lightgreen;
   padding: 40px;
 }
+
+.container {
+  margin-top: 40px !important;
+}
+
 .description, .example, .examples, .notes, .solution, .dropdown, .header, .footer {
   margin: 40px 0;
 }
