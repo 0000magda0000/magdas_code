@@ -54,41 +54,52 @@
   <div class="test">
     <h3>Ein paar Test Fälle</h3>
     <pre>
-      Test.describe("choose_best_sum") do
-        Test.it("Basic Tests") do
-          ts = [50, 55, 56, 57, 58]
-          Test.assert_equals(choose_best_sum(163, 3, ts), 163)
-          ts = [50]
-          Test.assert_equals(choose_best_sum(163, 3, ts), nil)
-          ts = [91, 74, 73, 85, 73, 81, 87]
-          Test.assert_equals(choose_best_sum(230, 3, ts), 228)
-        end
-      end
+Test.describe("choose_best_sum") do
+  Test.it("Basic Tests") do
+    ts = [50, 55, 56, 57, 58]
+    Test.assert_equals(choose_best_sum(163, 3, ts), 163)
+    ts = [50]
+    Test.assert_equals(choose_best_sum(163, 3, ts), nil)
+    ts = [91, 74, 73, 85, 73, 81, 87]
+    Test.assert_equals(choose_best_sum(230, 3, ts), 228)
+  end
+end
     </pre>
   </div>
   <div class="solution">
     <h3>Magdas Lösungsansatz mit Ruby</h3>
 
     <pre>
-      def choose_best_sum(t, k, ls)
-        i = 0
-        array = []
+def choose_best_sum(t, k, ls)
+  # t is limit of km to be driven
+  # k is number of towns to be visitd
+  # ls is array of distances between towns
+  # Setting variable i to be 0
+  i = 0
+  # Creating an empty array called array
+  array = []
 
-        # looping through all the possible combinations and saving them in an array
-        while i < ls.count
-          (array << ls.combination(k).to_a.map(&:sum))
-          i += 1
-        end
-        #
-        if (array.flatten.max == nil)
-          nil
-        elsif (array.flatten.max < t)
-          array.flatten.max
-        elsif array.flatten.find_index(t) != nil
-          t
-        else array.flatten.sort.reverse.bsearch { |x| x <= t }
-        end
-      end
+  # Loop through all the possible combinations of sums of distances
+  # with k as the number of towns to be visited therefor the number of digits of the combination
+  # and saving those in the array
+  while i < ls.count
+    (array << ls.combination(k).to_a.map(&:sum))
+    i += 1
+  end
+  # Return nil if max of array is nil
+  if (array.flatten.max == nil)
+    nil
+  # Return max of array if smaller than t
+  elsif (array.flatten.max < t)
+    array.flatten.max
+  # Return t if t exists (index is not nil)
+  elsif array.flatten.find_index(t) != nil
+    t
+  # Else return value (x) of array that is the next smallest to t
+  else array.flatten.sort.reverse.bsearch { |x| x <= t }
+  end
+end
+
     </pre>
   </div>
   <div class="comment">
