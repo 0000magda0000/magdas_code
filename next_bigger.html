@@ -92,11 +92,13 @@ def next_bigger(n)
     # if value from index i in a is bigger than the previous number in the array
     if a[-i] > a[-i - 1]
       # then set variable b to be the range of the value of index i until the last value of a,
-      # sort these values ascending
+      # sort these values
       b = a[-i..-1].sort
-      # then search for index within b, substract b length from it, store in variable c
+      # then search for value starting at the end of the array that needs to be swapped
       c = (b.find_index(b.detect { |x| x > a[-1 - i] }) - b.count)
-      # return values from array a from index 0 until -i - 1, add b to the array a
+      # return range of values from array a (from index 0 until index -i -1) until excluding
+      # the value that will be swapped
+      # push b into the array a
       # swap values of index -i - 1 and c, turn this into integer
       a[0..-i - 1].push(b).flatten.swap!(-i - 1, c).join.to_i
     end
@@ -107,7 +109,12 @@ end
   </div>
   <div class="comment">
     <h5>Kommentar zu meinem Lösungsansatz</h5>
-    Ich kann mich erinnern, dass ich diese Challenge sehr spannend fand. Ich habe zum Beispiel den Unterschied zwischen <code>.combination</code> und <code>.permutation</code> kennengelernt. Ich nehme an, dass die Lösung mit Combination nicht ideal ist, weil es wahrscheinlich das Programm verlangsamt, da alle Kombinationen abgefragt werden. Auch die Lösung mit dem Umgang mit <code>nil</code> scheint mir nicht ideal. Gefallen hat mir das Übersetzen einer etwas komplexeren Textaufgabe in Code. Zudem habe ich die <code>.bsearch</code> (Binary Search) Methode gelernt :).
+    Diese Aufgabenstellung ist recht einfach zu verstehen, die Umsetzung hingegen komplexer.
+    Mein Ansatz war, eine Methode <code>.swap!</code> für das Vertauschen von Values in einem Array zu haben.
+    Des weiteren, filtere ich im nächsten Schritt (if Statement) die Special Cases heraus.
+    In einem While Loop und einem darin genesteten
+    if Statement überprüfe ich vom Ende der Number her, welche Zahl es zu tauschen gilt.
+    Die next_bigger() Methode ist zu lang, ich sollte sie in mehrere Methoden aufteilen.
   </div>
   <div class="footer">
     Next bigger number with the same digits ist eine Coding Challenge auf <a href="https://www.codewars.com/kata/55983863da40caa2c900004e" target="_blank">codewars.com</a>

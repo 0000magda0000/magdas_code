@@ -27,13 +27,15 @@ def next_bigger(n)
   while i < a.count
     # if value from index i in a is bigger than the previous number in the array
     if a[-i] > a[-i - 1]
-      # then set variable b to be the range of the value of index i until the last value of a -
-      # sort these values ascending
+      # then set variable b to be the range of the value of index i until the last value of a,
+      # sort these values
       b = a[-i..-1].sort
-      # then search for index within b, substract b length from it, store in variable c
+      # then search for value starting at the end of the array that needs to be swapped
       c = (b.find_index(b.detect { |x| x > a[-1 - i] }) - b.count)
-      # return values from array a from index 0 until -i -1, add b to the array a
-      # swap values of index -i -1 and c - turn this into integer
+      # return range of values from array a (from index 0 until index -i -1) until excluding
+      # the value that will be swapped
+      # push b into the array a
+      # swap values of index -i - 1 and c, turn this into integer
       a[0..-i - 1].push(b).flatten.swap!(-i - 1, c).join.to_i
     end
     i += 1
