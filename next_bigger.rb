@@ -1,43 +1,51 @@
+# define the method swap! that swaps the argument input
 class Array
-  # defining the function swap! that swaps the given argument input
-  def swap! (a, b)
+  def swap!(a, b)
     self[a], self[b] = self[b], self[a]
     self
   end
 end
 
-def next_bigger(n)
-  # convert n (number) into array of integers, storing this array in the variable a
-  a = n.to_s.chars.map { |x| x.to_i }
-  # test for the special case that a and a reverse are the same, return -1 if so
-  if a.sort.reverse == a
-    -1
-  # test for the special case that a is already ascending digits AND
-  # test for dublicates within a, if so swap digits
-  elsif a.sort == a && a.uniq.count == a.count
-    a.swap!(-1, -2).join.to_i
-  # test if the last two numbers in the array are the same AND
-  # test for the special case that a has lenght of 3 or less
-  elsif a[-1] == a[-2] && a.count <= 3
-    a.swap!(-2, -3).join.to_i
-  end
+def swap_special_case(array)
+  # special case: there is no bigger number,
+  # return -1
+  return -1 if array.sort.reverse == array
+  # special case: array is in ascending order and there are no doublicate numbers,
+  # swap second last and last value, use return to stop program
+  return array.swap!(-1, -2).join.to_i if array.sort == array && array.uniq.count == array.count
+  # special case: array has 3 values or less, second last and last value are the same
+  # swap third and second last value, use return to stop program
+  return array.swap!(-2, -3).join.to_i if array[-1] == array[-2] && array.count <= 3
+end
 
+def swap_not_special_case(array)
   i = 1
-  # loop while a length is bigger than i
-  while i < a.count
-    # if value from index i in a is bigger than the previous number in the array
-    if a[-i] > a[-i - 1]
-      # then set variable b to be the range of the value of index i until the last value of a,
-      # sort these values
-      b = a[-i..-1].sort
-      # then search for value starting at the end of the array that needs to be swapped
-      c = (b.find_index(b.detect { |x| x > a[-1 - i] }) - b.count)
-      # return range of values from array a (from index 0 until index -i -1) until excluding
-      # the value that will be swapped
-      # push b into the array a
-      # swap values of index -i - 1 and c, turn this into integer
-      a[0..-i - 1].push(b).flatten.swap!(-i - 1, c).join.to_i
+  while i < array.count
+    # look from right side for the first value that is bigger than the previous one (left side)
+    if array[-i] > array[-i - 1]
+      # range from -i till the last value, save range as until_last, sort it
+      until_last = array[-i.. - 1].sort
+      # find index of value to be switched
+      to_switch = (until_last.find_index(until_last.detect { |x| x > array[-1-i] }) - until_last.count)
+      # return range of array from left side beginning until value before -1
+      # instert until_last in the previous
+      # flatten this array and switch
+      # return integer
+      return array[0..-i - 1].push(until_last).flatten.swap!(-i - 1, to_switch).join.to_i
     end
     i += 1
+  end
+end
+
+def next_bigger(n)
+  # transform integer to array of digits, store in variable array
+  array = n.to_s.chars.map(&:to_i)
+  # perform swap if special case
+  if array.sort.reverse == array ||
+    array.sort == array && array.uniq.count == array.count ||
+    array[-1] == array[-2] && array.count <= 3
+    swap_special_case(array)
+    # perform swap if not special case
+  else swap_not_special_case(array)
   end
 end
