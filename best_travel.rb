@@ -6,22 +6,26 @@ def choose_best_sum(t, k, ls)
   i = 0
   # Creating an empty array called array
   array = []
-
-  # Loop through all the possible combinations of sums of distances
+  # Loop through all the combinations of sums of distances
   # with k as the number of towns to be visited therefor the number of digits of the combination
   # and saving those in the array
   while i < ls.count
-    (array << ls.combination(k).to_a.map(&:sum))
+    array << ls.combination(k).to_a.map(&:sum)
     i += 1
   end
+  # calling method
+  filter_or_find_next_smallest(array, t)
+end
+
+def filter_or_find_next_smallest(array, t)
   # Return nil if max of array is nil
-  if (array.flatten.max == nil)
+  if array.flatten.max.nil?
     nil
-  # Return max of array if smaller than t
-  elsif (array.flatten.max < t)
+  # Return max of array if smaller than t, therefor finding the max of km if smaller than t
+  elsif array.flatten.max < t
     array.flatten.max
   # Return t if t exists (index is not nil)
-  elsif array.flatten.find_index(t) != nil
+  elsif !array.flatten.find_index(t).nil?
     t
   # Else return value (x) of array that is the next smallest to t
   else array.flatten.sort.reverse.bsearch { |x| x <= t }
