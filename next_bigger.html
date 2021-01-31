@@ -63,38 +63,40 @@ Test.assert_equals(next_bigger(144),414)
 
     <pre>
 <span class="code-comment"># define the method swap! that swaps the argument input</span>
-def swap!(a, b)
 class Array
+  def swap!(a, b)
     self[a], self[b] = self[b], self[a]
     self
   end
 end
 
+<span class="code-comment"># special case 1: there is no bigger number, because array is already in descending order</span>
+def special_case_1?(array)
+  array.sort.reverse == array
+end
+
+<span class="code-comment"># special case 2: array is in ascending order</span>
+def special_case_2?(array)
+  array.sort == array && array.uniq.count == array.count
+end
+
+<span class="code-comment"># special case 3: array has 3 values or less, second last and last value are the same</span>
+def special_case_3?(array)
+  array.count <= 3 && array[-1] == array[-2]
+end
+
 def swap_special_case(array)
-  <span class="code-comment"># special case: there is no bigger number,</span>
-  <span class="code-comment"># return -1</span>
-  return -1 if array.sort.reverse == array
-  <span class="code-comment"># special case: array is in ascending order and there are no doublicate numbers,</span>
-  <span class="code-comment"># swap second last and last value, use return to stop program</span>
-  return array.swap!(-1, -2).join.to_i if array.sort == array && array.uniq.count == array.count
-  <span class="code-comment"># special case: array has 3 values or less, second last and last value are the same</span>
-  <span class="code-comment"># swap third and second last value, use return to stop program</span>
-  return array.swap!(-2, -3).join.to_i if array[-1] == array[-2] && array.count <= 3
+  return -1 if special_case_1?(array)
+  return array.swap!(-1, -2).join.to_i if special_case_2?(array)
+  return array.swap!(-2, -3).join.to_i if special_case_3?(array)
 end
 
 def swap_not_special_case(array)
   i = 1
   while i < array.count
-    <span class="code-comment"># look from right side for the first value that is bigger than the previous one (left side)</span>
     if array[-i] > array[-i - 1]
-      <span class="code-comment"># range from -i till the last value, save range as until_last, sort it</span>
-      until_last = array[-i.. - 1].sort
-      <span class="code-comment"># find index of value to be switched</span>
-      to_switch = (until_last.find_index(until_last.detect { |x| x > array[-1-i] }) - until_last.count)
-      <span class="code-comment"># return range of array from left side beginning until value before -1</span>
-      <span class="code-comment"># instert until_last in the previous</span>
-      <span class="code-comment"># flatten this array and switch</span>
-      <span class="code-comment"># return integer</span>
+      until_last = array[-i..-1].sort
+      to_switch = (until_last.find_index(until_last.detect { |x| x > array[-1 - i] }) - until_last.count)
       return array[0..-i - 1].push(until_last).flatten.swap!(-i - 1, to_switch).join.to_i
     end
     i += 1
@@ -102,14 +104,9 @@ def swap_not_special_case(array)
 end
 
 def next_bigger(n)
-  <span class="code-comment"># transform integer to array of digits, store in variable array</span>
   array = n.to_s.chars.map(&:to_i)
-  <span class="code-comment"># perform swap if special case</span>
-  if array.sort.reverse == array ||
-    array.sort == array && array.uniq.count == array.count ||
-    array[-1] == array[-2] && array.count <= 3
+  if special_case_1?(array) || special_case_2?(array) || special_case_3?(array)
     swap_special_case(array)
-    <span class="code-comment"># perform swap if not special case</span>
   else swap_not_special_case(array)
   end
 end
@@ -117,13 +114,25 @@ end
   </div>
   <div class="comment">
     <h5>Kommentar zu meinem Lösungsansatz</h5>
-    Diese Aufgabenstellung ist recht einfach zu verstehen, die Umsetzung hingegen komplexer.
-    Mein Ansatz war, eine Methode <code>.swap!</code> für das Vertauschen von Values in einem Array zu haben.
-    Des weiteren filtere ich mit einer Methode (if Statement) die Special Cases heraus und
-    finde für diese Fälle die nächst größere Zahl.
-    In einer weiteren Methode mit einem While Loop und einem darin genesteten
-    if Statement überprüfe ich vom Ende des Integers (als Array) her, welche Ziffer es zu tauschen gilt.
-    Die next_bigger() Methode führt die drei oben genannten Methoden zusammen.
+    Diese Aufgabenstellung ist recht einfach zu verstehen, die Umsetzung
+    hingegen komplexer. <br>
+    Beobachtungen zur nächstgrößeren Zahl: <br><br>
+    1) Wenn alle Ziffern in absteigender Reihenfolge sortiert sind, ist der
+    Return-Wert -1 - es gibt keine nächstgrößere Zahl. <br>
+    2) Wenn alle Ziffern in aufsteigender Reihenfolge sortiert sind, muss ich
+    nur die letzten beiden Ziffern austauschen. <br>
+    3) Die Zahl hat 3 Ziffern oder weniger, vorletzte und letzte Ziffer sind gleich <br>
+    4) In anderen Fällen muss ich von rechts beginnend die Ziffer suchen,
+    die kleiner ist als eine zuvor vorhandene Ziffer. Danach suche ich die
+    nächstkleinere Zahl rechts von dieser. Danach tausche ich diese beiden Ziffern.
+    Als letzten Schritt sortiere ich die Zahlen rechts von der eben getauschten,
+    weiter links stehenden Zahl aufsteigend.
+     <br><br>
+    Mein Ansatz war, eine Methode <code>.swap!</code> für das Vertauschen von
+    Values in einem Array zu haben.
+    Des weiteren filtere ich die 3 Special Cases heraus und finde für diese
+    Fälle die nächstgrößere Zahl bzw. ist die Lösung -1.
+    Die next_bigger() Methode führt die Methoden zusammen.
     Dieser Lösungsansatz hat alle Tests und Attempts auf Codewars bestanden.
   </div>
   <div class="footer">

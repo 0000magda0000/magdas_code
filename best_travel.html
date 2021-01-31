@@ -31,21 +31,29 @@
 
   <div class="description">
     <h5>Aufgabe</h5>
-      John and Mary want to travel between a few towns A, B, C ... Mary has on a sheet of paper a list of distances between these towns. ls = [50, 55, 57, 58, 60]. John is tired of driving and he says to Mary that he doesn't want to drive more than t = 174 miles and he will visit only 3 towns. Which distances, hence which towns, they will choose so that the sum of the distances is the biggest possible to please Mary and John?
+      John and Mary want to travel between a few towns A, B, C ...
+      Mary has on a sheet of paper a list of distances between these towns.
+      ls = [50, 55, 57, 58, 60]. John is tired of driving and he says to Mary
+      that he doesn't want to drive more than t = 174 miles and he will visit
+      only 3 towns. Which distances, hence which towns, they will choose so that
+      the sum of the distances is the biggest possible to please Mary and John?
     </div>
   <div class="example">
     <h5>Beispiel</h5>
-      With list ls and 3 towns to visit they can make a choice between: [50,55,57],[50,55,58],[50,55,60],[50,57,58],[50,57,60],[50,58,60],[55,57,58],[55,57,60],[55,58,60],[57,58,60].
-      The sums of distances are then: 162, 163, 165, 165, 167, 168, 170, 172, 173, 175.
-      The biggest possible sum taking a limit of 174 into account is then 173 and the distances of the 3 corresponding towns is [55, 58, 60].
-      The function chooseBestSum (or choose_best_sum or ... depending on the language) will take as parameters t< (maximum sum of distances, integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances, all distances are positive or null integers and this list has at least one element). The function returns the "best" sum ie the biggest possible sum of k distances less than or equal to the given limit t, if that sum exists, or otherwise nil, null, None, Nothing, depending on the language.
-      With C++, C, Rust, Swift, Go, Kotlin, Dart return -1.
-  </div>
-  <div class="examples">
-    <h5>weitere Beispiele mit Lösung</h5>
-      ts = [50, 55, 56, 57, 58] choose_best_sum(163, 3, ts) -> 163<br>
-      xs = [50] choose_best_sum(163, 3, xs) -> nil (or null or ... or -1 (C++, C, Rust, Swift, Go)<br>
-      ys = [91, 74, 73, 85, 73, 81, 87] choose_best_sum(230, 3, ys) -> 228
+      With list ls and 3 towns to visit they can make a choice between:
+      [50,55,57],[50,55,58],[50,55,60],[50,57,58],[50,57,60],[50,58,60],
+      [55,57,58],[55,57,60],[55,58,60],[57,58,60].
+      The sums of distances are then: 162, 163, 165, 165, 167, 168, 170, 172,
+      173, 175.
+      The biggest possible sum taking a limit of 174 into account is then 173
+      and the distances of the 3 corresponding towns is [55, 58, 60].
+      The method <code>.choose_best_sum</code> will take as parameters t
+      (maximum sum of distances, integer >= 0), k (number of towns to visit,
+      k >= 1) and ls (list of distances, all distances are positive or null
+      integers and this list has at least one element).
+      The function returns the "best" sum i.e. the biggest possible sum of k
+      distances less than or equal to the given limit t,
+      if that sum exists, or otherwise nil.
   </div>
   <div class="note">
     <h5>Hinweis:</h5>
@@ -71,35 +79,20 @@ end
 
     <pre>
 def choose_best_sum(t, k, ls)
-  <span class="code-comment"># t is limit of km to be driven</span>
-  <span class="code-comment"># k is number of towns to be visitd</span>
-  <span class="code-comment"># ls is array of distances between towns</span>
-  <span class="code-comment"># Setting variable i to be 0</span>
-  i = 0
-  <span class="code-comment"># Creating an empty array called array</span>
   array = []
-  <span class="code-comment"># Loop through all the combinations of sums of distances</span>
-  <span class="code-comment"># with k as the number of towns to be visited therefor the number of digits of the combination</span>
-  <span class="code-comment"># and saving those in the array</span>
-  while i < ls.count
+  <span class="code-comment"># finding all sums of combinations</span>
+  ls.count.times do
     array << ls.combination(k).to_a.map(&:sum)
-    i += 1
   end
-  <span class="code-comment"># calling method</span>
-  filter_or_find_next_smallest(array, t)
+  find_next_biggest(array, t)
 end
 
-def filter_or_find_next_smallest(array, t)
-  <span class="code-comment"># Return nil if max of array is nil</span>
-  if array.flatten.max.nil?
-    nil
-  <span class="code-comment"># Return max of array if smaller than t, therefor finding the max of km if smaller than t</span>
-  elsif array.flatten.max < t
-    array.flatten.max
-  <span class="code-comment"># Return t if t exists (index is not nil)</span>
-  elsif !array.flatten.find_index(t).nil?
+def find_next_biggest(array, t)
+  array.flatten.reject!(&:nil?)
+  <span class="code-comment"># Return t if t is part of array</span>
+  if array.flatten.include? t
     t
-  <span class="code-comment"># Else return value (x) of array that is the next smallest to t</span>
+  <span class="code-comment"># Return the next biggest value of t</span>
   else array.flatten.sort.reverse.bsearch { |x| x <= t }
   end
 end
